@@ -1,11 +1,14 @@
 package com.lms.libmanage.controller;
 
-import com.lms.libmanage.entity.User;
+import com.lms.libmanage.entity.user.User;
+import com.lms.libmanage.entity.user.UserResponse;
+import com.lms.libmanage.entity.user.UserUpdateRequest;
 import com.lms.libmanage.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +20,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
@@ -27,6 +30,31 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/library-member")
+    public ResponseEntity<List<UserResponse>> getAllLibraryMembers() {
+        return ResponseEntity.ok(userService.getAllLibraryMembers());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/library-staff")
+    public ResponseEntity<List<UserResponse>> getAllLibraryStaff() {
+        return ResponseEntity.ok(userService.getAllLibraryStaff());
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/uuid/{uuid}")
+    public ResponseEntity<String> deleteUserByUUID(@PathVariable String uuid) {
+        return ResponseEntity.ok(userService.deleteUserByUUID(uuid));
+    }
+
 
     @PostMapping
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
@@ -38,11 +66,5 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Integer id, @Valid @RequestBody User userDetails) {
         User updatedUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updatedUser);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
