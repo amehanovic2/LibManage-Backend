@@ -18,7 +18,7 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @PreAuthorize("hasRole('LIBRARY_STAFF') or hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('LIBRARY_STAFF') or hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
