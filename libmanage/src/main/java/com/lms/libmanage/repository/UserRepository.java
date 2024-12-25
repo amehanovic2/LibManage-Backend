@@ -20,4 +20,5 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query("SELECT u FROM User u WHERE u.uuid=:uuid")
     public Optional<User> findByUUID(String uuid);
+
 }

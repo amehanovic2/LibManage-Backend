@@ -46,4 +46,10 @@ public class BorrowHistoryController {
         borrowHistoryService.deleteBorrowHistory(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/borrow")
+    public ResponseEntity<BorrowHistory> borrowBook(@RequestParam Integer bookId, @RequestParam Integer userId) {
+        BorrowHistory borrowHistory = borrowHistoryService.borrowBook(bookId, userId);
+        return new ResponseEntity<>(borrowHistory, HttpStatus.CREATED);
+    }
 }

@@ -8,6 +8,7 @@ import com.lms.libmanage.enums.TokenType;
 import com.lms.libmanage.repository.TokenRepository;
 import com.lms.libmanage.repository.UserRepository;
 import com.lms.libmanage.utils.DuplicateEntryException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -74,6 +75,8 @@ public class AuthenticationService {
         claimMap.put("Uuid",user.getUuid());
         var jwtToken = jwtService.generateToken(claimMap,user);
         var refreshToken = jwtService.generateRefreshToken(claimMap, user);
+
+
         saveToken(savedUser, jwtToken);
 
         return  new AuthenticationResponse(jwtToken,refreshToken,new UserResponse(savedUser));
@@ -97,6 +100,8 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(claimMap,user);
         var refreshToken = jwtService.generateRefreshToken(claimMap,user);
         revokeAllUserTokens(user);
+
+
         saveToken(user, jwtToken);
         return  new AuthenticationResponse(jwtToken,refreshToken,new UserResponse(user));
     }

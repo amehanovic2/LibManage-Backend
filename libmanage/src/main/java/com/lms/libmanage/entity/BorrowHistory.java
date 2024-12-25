@@ -43,4 +43,15 @@ public class BorrowHistory {
 
     @Column(name = "due_date", nullable = false)
     private Date dueDate;
+
+    public BorrowHistory(Integer bookId, Integer userId, Date issueDate, Date returnDate, Date dueDate) {
+        this.bookId = bookId;
+        this.userId = userId;
+        this.issueDate = issueDate;
+        this.returnDate = returnDate;
+        this.dueDate = dueDate;
+    }
+
+    public BorrowHistory() {
+    }
 }

@@ -23,7 +23,7 @@ public class LibManageApplication {
 		return new RestTemplate();
 	}
 
-	@Bean
+	/*@Bean
 	public ServletWebServerFactory servletContainer() {
 		// Enable SSL Trafic
 		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
@@ -42,19 +42,19 @@ public class LibManageApplication {
 		tomcat.addAdditionalTomcatConnectors(httpToHttpsRedirectConnector());
 
 		return tomcat;
-	}
+	}*/
 
 	/*
     We need to redirect from HTTP to HTTPS. Without SSL, this application used
     port 8082. With SSL it will use port 8443. So, any request for 8082 needs to be
     redirected to HTTPS on 8443.
      */
-	private Connector httpToHttpsRedirectConnector() {
+	/*private Connector httpToHttpsRedirectConnector() {
 		Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
 		connector.setScheme("http");
 		connector.setPort(8082);
 		connector.setSecure(false);
 		connector.setRedirectPort(8443);
 		return connector;
-	}
+	}*/
 }
